@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>REYHAN YASSAR · Neon Lights</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #08080e;
+      color: #ddd;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* ===== BACKGROUND DENGAN LAMPU WARNA ===== */
+    .bg-neon {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: radial-gradient(ellipse at 20% 30%, #141428, #06060a 90%);
+    }
+    .color-spot {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 0;
+      animation: spotFloat 14s infinite alternate ease-in-out;
+    }
+    .spot1 { width: 500px; height: 500px; background: #ff0055; top: -100px; left: -50px; }
+    .spot2 { width: 450px; height: 450px; background: #00ccff; bottom: -80px; right: -30px; animation-delay: 5s; }
+    .spot3 { width: 400px; height: 400px; background: #66ff00; top: 40%; left: 50%; animation-delay: 10s; opacity: 0.18; }
+    .spot4 { width: 350px; height: 350px; background: #ffaa00; bottom: 20%; left: 10%; animation-delay: 3s; opacity: 0.15; }
+    @keyframes spotFloat {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(80px, -60px) scale(1.3); }
+    }
+
+    /* ===== CONTAINER DENGAN BORDER NEON WARNA ===== */
+    .container {
+      max-width: 1280px;
+      width: 100%;
+      background: rgba(10, 10, 18, 0.65);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border-radius: 56px;
+      padding: 2.5rem 3rem;
+      position: relative;
+      z-index: 2;
+      border: 1px solid rgba(120, 120, 200, 0.15);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+      transition: all 0.3s ease;
+    }
+    .container::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 58px;
+      padding: 2px;
+      background: linear-gradient(135deg, #ff0055, #00ccff, #66ff00, #ffaa00, #ff0055);
+      background-size: 300% 300%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      z-index: -1;
+      animation: borderColorShift 6s linear infinite;
+    }
+    @keyframes borderColorShift {
+      0% { background-position: 0% 50%; opacity: 0.6; }
+      50% { background-position: 100% 50%; opacity: 1; }
+      100% { background-position: 0% 50%; opacity: 0.6; }
+    }
+
+    /* ===== GRID ===== */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 2.8rem;
+      align-items: start;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .profile-side {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.5rem;
+    }
+    .avatar-wrapper {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid #ff00aa;
+      box-shadow: 0 0 40px rgba(255, 0, 170, 0.15), 0 0 80px rgba(255, 0, 170, 0.05);
+      transition: 0.4s;
+      flex-shrink: 0;
+      animation: avatarGlow 3s infinite alternate;
+    }
+    @keyframes avatarGlow {
+      0% { border-color: #ff00aa; box-shadow: 0 0 30px rgba(255, 0, 170, 0.2); }
+      50% { border-color: #00ccff; box-shadow: 0 0 50px rgba(0, 204, 255, 0.25); }
+      100% { border-color: #66ff00; box-shadow: 0 0 40px rgba(102, 255, 0, 0.2); }
+    }
+    .avatar-wrapper:hover { transform: scale(1.02); }
+    .avatar-wrapper video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .name-title h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ff66aa, #66ccff, #aaff66);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 40px rgba(255, 100, 200, 0.15);
+      line-height: 1.2;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(20, 20, 40, 0.7);
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #c0c0e0;
+      border: 1px solid #4a4a7a;
+      backdrop-filter: blur(4px);
+      letter-spacing: 0.3px;
+    }
+    .bio-short {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: #b0b0c0;
+      background: rgba(16, 16, 30, 0.5);
+      padding: 0.6rem 1rem;
+      border-radius: 32px;
+      border-left: 2px solid #ff66aa;
+      width: 100%;
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      justify-content: center;
+      margin: 0.2rem 0 0.6rem;
+    }
+    .skill-tags span {
+      background: #18182a;
+      padding: 0.25rem 0.9rem;
+      border-radius: 40px;
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: #c0c0e0;
+      border: 1px solid #2a2a4a;
+      box-shadow: 0 0 12px rgba(0, 200, 255, 0.05);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: 0.2s;
+    }
+    .skill-tags span i { color: #7a7aaa; font-size: 0.7rem; }
+    .social-links {
+      display: flex;
+      gap: 0.8rem;
+      margin: 0.3rem 0;
+    }
+    .social-links a {
+      color: #aaaac0;
+      font-size: 1.2rem;
+      background: #16162a;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 1px solid #2a2a4a;
+      transition: 0.25s;
+      text-decoration: none;
+    }
+    .social-links a:hover {
+      color: #fff;
+      border-color: #ff66aa;
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 0 30px rgba(255, 100, 200, 0.15);
+    }
+    .clock {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #a0a0c0;
+      background: #14142a;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      border: 1px solid #2a2a4a;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+      box-shadow: 0 0 20px rgba(0, 200, 255, 0.05);
+    }
+    .clock i { color: #66ccff; }
+
+    /* ===== KONTEN KANAN ===== */
+    .content-main {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+    }
+    .section-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #8a8aaa;
+      border-bottom: 1px solid #22223a;
+      padding-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title i { color: #66ccff; font-size: 0.8rem; }
+
+    /* ===== KARTU DATA DIRI ===== */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      background: rgba(12, 12, 24, 0.4);
+      padding: 1.2rem 1.5rem;
+      border-radius: 32px;
+      border: 1px solid #22223a;
+      backdrop-filter: blur(4px);
+    }
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: #c0c0d0;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid #1a1a2a;
+    }
+    .info-item:last-child { border-bottom: none; }
+    .info-item i { width: 22px; color: #66ccff; }
+
+    /* ===== PROGRESS BAR ===== */
+    .skill-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      background: rgba(12, 12, 24, 0.4);
+      padding: 1.2rem 1.8rem;
+      border-radius: 32px;
+      border: 1px solid #22223a;
+    }
+    .skill-bar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .skill-bar .label {
+      width: 100px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #c0c0d0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .skill-bar .label i { font-size: 1rem; }
+    .skill-bar .track {
+      flex: 1;
+      height: 8px;
+      background: #1a1a2a;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+    }
+    .skill-bar .fill {
+      height: 100%;
+      border-radius: 20px;
+      width: 0%;
+      transition: width 2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .fill.js { background: linear-gradient(90deg, #f7df1e, #ffaa00); box-shadow: 0 0 20px rgba(247, 223, 30, 0.3); }
+    .fill.py { background: linear-gradient(90deg, #3776ab, #66ccff); box-shadow: 0 0 20px rgba(51, 118, 171, 0.3); }
+    .skill-bar .percent {
+      font-size: 0.8rem;
+      font-weight: 700;
+      width: 45px;
+      text-align: right;
+      color: #c0c0d0;
+    }
+
+    /* ===== HOBBY & AHLI ===== */
+    .hobby-ahli-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+    .hobby-box, .ahli-box {
+      background: rgba(12, 12, 24, 0.4);
+      padding: 1rem 1.2rem;
+      border-radius: 28px;
+      border: 1px solid #22223a;
+      backdrop-filter: blur(4px);
+    }
+    .hobby-box .sub-title, .ahli-box .sub-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #7a7a9a;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hobby-tags, .ahli-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .hobby-tags span, .ahli-tags span {
+      background: #18182a;
+      padding: 0.25rem 1rem;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      border: 1px solid #2a2a4a;
+      color: #c0c0d0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.2s;
+    }
+    .hobby-tags span i, .ahli-tags span i { color: #66ccff; }
+    .hobby-tags span:hover, .ahli-tags span:hover {
+      background: #22223a;
+      border-color: #ff66aa;
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(255, 100, 200, 0.1);
+    }
+
+    /* ===== INTERACTIVE PANEL ===== */
+    .interactive-panel {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem 1rem;
+      align-items: center;
+      background: rgba(10, 10, 20, 0.5);
+      padding: 0.8rem 1.5rem;
+      border-radius: 60px;
+      border: 1px solid #22223a;
+      backdrop-filter: blur(4px);
+    }
+    .interactive-btn {
+      background: #18182a;
+      border: 1px solid #2a2a4a;
+      color: #c0c0d0;
+      padding: 0.4rem 1.2rem;
+      border-radius: 60px;
+      font-weight: 500;
+      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: 0.25s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      font-family: 'Inter', sans-serif;
+    }
+    .interactive-btn i { color: #7a7aaa; transition: 0.2s; }
+    .interactive-btn:hover {
+      background: #28284a;
+      border-color: #66ccff;
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(0, 204, 255, 0.15);
+      color: #f0f0ff;
+    }
+    .interactive-btn:active { transform: scale(0.95); }
+    #statusDisplay {
+      background: #12122a;
+      padding: 0.4rem 1.2rem;
+      border-radius: 60px;
+      font-size: 0.75rem;
+      border: 1px solid #2a2a4a;
+      color: #b0b0c0;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 170px;
+      flex: 1;
+      box-shadow: 0 0 20px rgba(0, 200, 255, 0.03);
+    }
+
+    /* ===== PROJECT LIST ===== */
+    .project-list {
+      display: none;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      background: #0e0e1e;
+      padding: 0.8rem 1.2rem;
+      border-radius: 32px;
+      border: 1px solid #22223a;
+      margin-top: 0.5rem;
+    }
+    .project-list.show { display: flex; }
+    .project-item {
+      background: #18182a;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      border: 1px solid #2a2a4a;
+      font-size: 0.75rem;
+      color: #c0c0d0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 0 15px rgba(0, 204, 255, 0.03);
+    }
+    .project-item i { color: #66ccff; }
+
+    /* ===== FOOTER ===== */
+    .footer-note {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 0.7rem;
+      color: #5a5a7a;
+      border-top: 1px solid #1a1a2a;
+      padding-top: 0.8rem;
+    }
+    .music-control {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #12122a;
+      padding: 0.15rem 0.8rem 0.15rem 0.6rem;
+      border-radius: 60px;
+      border: 1px solid #2a2a4a;
+    }
+    .music-control button {
+      background: transparent;
+      border: none;
+      color: #b0b0c0;
+      font-size: 0.9rem;
+      cursor: pointer;
+      padding: 2px 6px;
+      transition: 0.2s;
+    }
+    .music-control button:hover { color: #66ccff; transform: scale(1.1); }
+    .music-control span { font-size: 0.65rem; color: #7a7a9a; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 950px) {
+      .profile-grid { grid-template-columns: 1fr; gap: 1.8rem; }
+      .profile-side { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.2rem; }
+      .avatar-wrapper { width: 130px; height: 130px; }
+      .name-title h1 { font-size: 1.8rem; }
+      .container { padding: 1.8rem; }
+      .info-grid { grid-template-columns: 1fr; }
+      .hobby-ahli-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 550px) {
+      .container { padding: 1rem; }
+      .avatar-wrapper { width: 100px; height: 100px; }
+      .interactive-panel { flex-direction: column; align-items: stretch; border-radius: 32px; }
+      #statusDisplay { min-width: unset; }
+      .skill-bar .label { width: 70px; font-size: 0.7rem; }
+    }
+
+    /* ===== ANIMASI ===== */
+    .fade-in { animation: fadeUp 0.6s ease forwards; }
+    @keyframes fadeUp { 0% { opacity: 0; transform: translateY(12px); } 100% { opacity: 1; transform: translateY(0); } }
+    .glow-text { text-shadow: 0 0 20px rgba(100, 200, 255, 0.1); }
+  </style>
+</head>
+<body>
+  <!-- BACKGROUND LAMPU WARNA -->
+  <div class="bg-neon"></div>
+  <div class="color-spot spot1"></div>
+  <div class="color-spot spot2"></div>
+  <div class="color-spot spot3"></div>
+  <div class="color-spot spot4"></div>
+
+  <div class="container">
+    <div class="profile-grid">
+      <!-- SIDEBAR -->
+      <div class="profile-side">
+        <div class="avatar-wrapper">
+          <video id="profileVideo" autoplay muted playsinline loop>
+            <source src="https://files.catbox.moe/6u7txc.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="name-title"><h1>REYHAN YASSAR</h1></div>
+        <div class="badge"><i class="fas fa-code"></i> 13 y.o · Developer</div>
+        <div class="bio-short"><i class="fas fa-quote-left" style="color:#ff66aa;margin-right:6px;"></i> Lahir 17 Juni 2012</div>
+        <div class="skill-tags">
+          <span><i class="fab fa-js" style="color:#f7df1e;"></i> JS</span>
+          <span><i class="fab fa-python" style="color:#66ccff;"></i> Python</span>
+          <span><i class="fas fa-terminal" style="color:#ff66aa;"></i> Hacking</span>
+          <span><i class="fas fa-robot" style="color:#66ff00;"></i> Bot</span>
+          <span><i class="fas fa-gamepad" style="color:#ffaa00;"></i> Fortnite</span>
+        </div>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-github"></i></a>
+          <a href="#"><i class="fab fa-telegram"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+          <a href="#"><i class="fas fa-gamepad"></i></a>
+        </div>
+        <div class="clock"><i class="fas fa-clock"></i> <span id="clockTime">00:00:00</span></div>
+      </div>
+
+      <!-- KONTEN KANAN -->
+      <div class="content-main">
+        <!-- DATA DIRI -->
+        <div>
+          <div class="section-title"><i class="fas fa-id-card"></i> Data Diri</div>
+          <div class="info-grid">
+            <div class="info-item"><i class="fas fa-user"></i> Reyhan Yassar Elyoesha</div>
+            <div class="info-item"><i class="fas fa-calendar-alt"></i> 17 Juni 2012 (13 tahun)</div>
+            <div class="info-item"><i class="fas fa-graduation-cap"></i> Informatika &amp; English</div>
+            <div class="info-item"><i class="fas fa-map-pin"></i> Indonesia</div>
+            <div class="info-item"><i class="fas fa-code"></i> JavaScript · Python</div>
+            <div class="info-item"><i class="fas fa-trophy"></i> 47 Victory Royale</div>
+          </div>
+        </div>
+
+        <!-- SKILL BAR -->
+        <div>
+          <div class="section-title"><i class="fas fa-chart-line"></i> Kemampuan Coding</div>
+          <div class="skill-bars">
+            <div class="skill-bar">
+              <span class="label"><i class="fab fa-js" style="color:#f7df1e;"></i> JavaScript</span>
+              <div class="track"><div class="fill js" id="jsFill" style="width:0%;"></div></div>
+              <span class="percent" id="jsPercent">0%</span>
+            </div>
+            <div class="skill-bar">
+              <span class="label"><i class="fab fa-python" style="color:#66ccff;"></i> Python</span>
+              <div class="track"><div class="fill py" id="pyFill" style="width:0%;"></div></div>
+              <span class="percent" id="pyPercent">0%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- HOBBY & AHLI -->
+        <div>
+          <div class="section-title"><i class="fas fa-star"></i> Hobi &amp; Keahlian</div>
+          <div class="hobby-ahli-grid">
+            <div class="hobby-box">
+              <div class="sub-title"><i class="fas fa-heart" style="color:#ff66aa;"></i> Hobi</div>
+              <div class="hobby-tags">
+                <span><i class="fas fa-laptop-code"></i> Web Dev</span>
+                <span><i class="fas fa-gamepad"></i> Fortnite</span>
+                <span><i class="fas fa-motorcycle"></i> Modif Motor</span>
+                <span><i class="fas fa-music"></i> Musik</span>
+              </div>
+            </div>
+            <div class="ahli-box">
+              <div class="sub-title"><i class="fas fa-brain" style="color:#66ccff;"></i> Ahli</div>
+              <div class="ahli-tags">
+                <span><i class="fas fa-skull-crossbones"></i> Hacking Tools</span>
+                <span><i class="fab fa-telegram"></i> Bot Telegram</span>
+                <span><i class="fab fa-whatsapp"></i> Bot WhatsApp</span>
+                <span><i class="fas fa-bolt"></i> DDoS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- INTERACTIVE PANEL -->
+        <div>
+          <div class="section-title"><i class="fas fa-microchip"></i> Playground</div>
+          <div class="interactive-panel">
+            <button class="interactive-btn" id="btnGreet"><i class="fas fa-hand-peace"></i> Sapaan</button>
+            <button class="interactive-btn" id="btnSkill"><i class="fas fa-brain"></i> Skill</button>
+            <button class="interactive-btn" id="btnFortnite"><i class="fas fa-crown"></i> Fortnite</button>
+            <button class="interactive-btn" id="btnProjects"><i class="fas fa-folder-open"></i> Proyek</button>
+            <div id="statusDisplay"><i class="fas fa-circle" style="color:#66ccff;font-size:0.6rem;"></i> siap</div>
+          </div>
+          <div class="project-list" id="projectList">
+            <div class="project-item"><i class="fas fa-globe"></i> Website Portofolio</div>
+            <div class="project-item"><i class="fas fa-robot"></i> Bot Telegram</div>
+            <div class="project-item"><i class="fab fa-whatsapp"></i> Bot WhatsApp</div>
+            <div class="project-item"><i class="fas fa-shield-halved"></i> DDoS Tool</div>
+            <div class="project-item"><i class="fas fa-hammer"></i> Hacking Toolkit</div>
+          </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer-note">
+          <span><i class="fas fa-music" style="margin-right:6px;color:#ff66aa;"></i> auto-play · loop</span>
+          <div class="music-control">
+            <button id="musicToggle"><i class="fas fa-pause"></i></button>
+            <span id="musicStatus">memutar</span>
+          </div>
+          <span id="visitorCounter"><i class="fas fa-eye" style="color:#66ccff;"></i> 1.024</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUDIO (tanpa autoplay agar kita kontrol) -->
+  <audio id="bgMusic" loop>
+    <source src="https://files.catbox.moe/leo69y.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // === ELEMEN ===
+      const video = document.getElementById('profileVideo');
+      const audio = document.getElementById('bgMusic');
+      const statusDiv = document.getElementById('statusDisplay');
+      const clockSpan = document.getElementById('clockTime');
+      const projectList = document.getElementById('projectList');
+      const musicToggle = document.getElementById('musicToggle');
+      const musicStatus = document.getElementById('musicStatus');
+
+      const jsFill = document.getElementById('jsFill');
+      const pyFill = document.getElementById('pyFill');
+      const jsPercent = document.getElementById('jsPercent');
+      const pyPercent = document.getElementById('pyPercent');
+
+      // === FUNGSI STATUS ===
+      function setStatus(msg, icon = 'fa-circle', color = '#66ccff') {
+        statusDiv.innerHTML = `<i class="fas ${icon}" style="color:${color};font-size:0.6rem;"></i> ${msg}`;
+      }
+
+      // === JAM ===
+      function updateClock() {
+        const now = new Date();
+        clockSpan.textContent = now.toTimeString().slice(0,8);
+      }
+      updateClock();
+      setInterval(updateClock, 1000);
+
+      // === PROGRESS BAR ===
+      function animateProgress() {
+        const jsTarget = 40, pyTarget = 30;
+        let jsCurrent = 0, pyCurrent = 0;
+        const step = 1;
+        const interval = 30;
+        const totalSteps = Math.max(jsTarget, pyTarget) / step;
+        let count = 0;
+        const timer = setInterval(() => {
+          count++;
+          if (jsCurrent < jsTarget) jsCurrent = Math.min(jsCurrent + step, jsTarget);
+          if (pyCurrent < pyTarget) pyCurrent = Math.min(pyCurrent + step, pyTarget);
+          jsFill.style.width = jsCurrent + '%';
+          jsPercent.textContent = jsCurrent + '%';
+          pyFill.style.width = pyCurrent + '%';
+          pyPercent.textContent = pyCurrent + '%';
+          if (count >= totalSteps) clearInterval(timer);
+        }, interval);
+      }
+
+      // === TOMBOL ===
+      function animateBtn(btn) {
+        btn.style.transform = 'scale(0.94)';
+        setTimeout(() => { btn.style.transform = ''; }, 120);
+      }
+
+      document.getElementById('btnGreet').addEventListener('click', function() {
+        const msgs = ['Halo! Saya REYHAN, 13 tahun 😎', '👋 Siap mengoding!', 'Hai! dari Indonesia 🇮🇩', 'Yo! Reyhan siap membantu.'];
+        setStatus(msgs[Math.floor(Math.random()*msgs.length)], 'fa-hand-peace', '#ff66aa');
+        animateBtn(this);
+      });
+
+      document.getElementById('btnSkill').addEventListener('click', function() {
+        const skills = ['JavaScript (40%) · Python (30%)', 'Bot TG & WA', 'Hacking tools, DDoS', 'Web dev & design'];
+        setStatus('⚡ ' + skills[Math.floor(Math.random()*skills.length)], 'fa-brain', '#66ccff');
+        animateBtn(this);
+      });
+
+      document.getElementById('btnFortnite').addEventListener('click', function() {
+        const quotes = ['🏆 Victory Royale!', '🔫 Main Fortnite tiap hari', '🎯 Sniper pro!', '🛸 Build battle? Siap!', '💀 Eliminasi 20+'];
+        setStatus(quotes[Math.floor(Math.random()*quotes.length)], 'fa-crown', '#ffaa00');
+        animateBtn(this);
+      });
+
+      document.getElementById('btnProjects').addEventListener('click', function() {
+        projectList.classList.toggle('show');
+        setStatus(projectList.classList.contains('show') ? '📂 Proyek ditampilkan' : '📁 Proyek disembunyikan', 'fa-folder-open', '#66ff00');
+        animateBtn(this);
+      });
+
+      // === MUSIK OTOMATIS DENGAN RETRY ===
+      function startAudio() {
+        // Setel agar loop true (sudah di tag)
+        audio.loop = true;
+        
+        // Coba play dengan muted terlebih dahulu (agar autoplay diizinkan)
+        audio.muted = true;
+        audio.play().then(() => {
+          // Setelah play, unmute
+          audio.muted = false;
+          musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+          musicStatus.textContent = 'memutar';
+          setStatus('🎵 musik berjalan', 'fa-music', '#ff66aa');
+        }).catch(() => {
+          // Jika gagal, coba ulang setiap 2 detik (tanpa interaksi)
+          let retryCount = 0;
+          const maxRetries = 20;
+          const retryInterval = setInterval(() => {
+            retryCount++;
+            audio.muted = true;
+            audio.play().then(() => {
+              audio.muted = false;
+              musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+              musicStatus.textContent = 'memutar';
+              setStatus('🎵 musik berjalan', 'fa-music', '#ff66aa');
+              clearInterval(retryInterval);
+            }).catch(() => {
+              if (retryCount >= maxRetries) {
+                clearInterval(retryInterval);
+                // Terakhir, coba dengan unmuted (mungkin butuh klik, tapi kita kasih tahu di status)
+                setStatus('⚠️ Klik untuk musik', 'fa-exclamation-triangle', '#ffaa00');
+              }
+            });
+          }, 2000);
+        });
+      }
+
+      // === MUSIK TOGGLE MANUAL ===
+      let musicPlaying = true;
+      musicToggle.addEventListener('click', function() {
+        if (audio.paused) {
+          audio.play().catch(()=>{});
+          musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+          musicStatus.textContent = 'memutar';
+          musicPlaying = true;
+          setStatus('🎵 musik dimulai', 'fa-music', '#ff66aa');
+        } else {
+          audio.pause();
+          musicToggle.innerHTML = '<i class="fas fa-play"></i>';
+          musicStatus.textContent = 'pause';
+          musicPlaying = false;
+          setStatus('⏸️ musik dijeda', 'fa-pause', '#7a7a9a');
+        }
+      });
+
+      // Update status jika audio berubah dari luar
+      audio.addEventListener('play', () => {
+        musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+        musicStatus.textContent = 'memutar';
+        musicPlaying = true;
+      });
+      audio.addEventListener('pause', () => {
+        musicToggle.innerHTML = '<i class="fas fa-play"></i>';
+        musicStatus.textContent = 'pause';
+        musicPlaying = false;
+      });
+      audio.addEventListener('ended', () => {
+        // loop sudah diatur, tapi jika tidak, kita set ulang
+        audio.currentTime = 0;
+        audio.play().catch(()=>{});
+      });
+
+      // === VIDEO ===
+      video.muted = true;
+      video.play().catch(() => { video.setAttribute('playsinline',''); video.load(); });
+      video.addEventListener('click', () => setStatus('🎥 video profile', 'fa-video', '#66ccff'));
+
+      // === VISITOR COUNTER ===
+      let visitor = 1024;
+      setInterval(() => {
+        visitor += Math.floor(Math.random() * 3);
+        document.querySelector('#visitorCounter').innerHTML = `<i class="fas fa-eye" style="color:#66ccff;"></i> ${visitor.toLocaleString()}`;
+      }, 8000);
+
+      // === INIT ===
+      window.addEventListener('load', function() {
+        setStatus('✨ siap beraksi', 'fa-circle', '#66ccff');
+        animateProgress();
+        startAudio(); // mulai musik otomatis
+      });
+
+      console.log('🚀 Portofolio Neon Lights · REYHAN · musik auto');
+    })();
+  </script>
+</body>
+</html>
